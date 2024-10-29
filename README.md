@@ -17,7 +17,7 @@ This endpoint is designed for use by the Apollo IoT interface. It returns an eve
 ### GET `/start-auth`
 This route returns a single use URL for the user to authenticate with as well as the state identifier for tracking user's login process status.
 ```json
-{ "state": "<state>", "url": "<protocol>://<host>/auth/<state>"" }
+{ "state": "<state>", "url": "<protocol>://<host>/auth/<state>" }
 ```
 
 ### GET `/callback`
