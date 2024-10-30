@@ -50,7 +50,7 @@ app.get('/sse/:state', (req, res) => {
     res.flushHeaders(); // flush the headers to establish SSE with client
 
     const keepaliveInterval = setInterval(() => {
-        res.write(`data: ${JSON.stringify({ status: 'keep-alive' })}`);
+        res.write(`data: ${JSON.stringify({ status: 'keep-alive' })}\n\n`);
     }, 10000);
 
     // This is a simple event handler for the eventEmitter.
