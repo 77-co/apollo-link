@@ -3,6 +3,11 @@ import express, { json } from 'express';
 import axios from 'axios';
 import crypto from 'node:crypto';
 import EventEmitter from 'events';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -93,7 +98,7 @@ app.get('/callback', async (req, res) => {
         // Optionally: clear state after sending tokens to avoid re-use
         authStates.delete(state);
 
-        res.send('Login successful! You may close this page.');
+        res.sendFile(path.join(__dirname, 'html/login-success.html'));
     } catch (error) {
         console.error(error);
         res.status(500).send('Authorization failed.');
