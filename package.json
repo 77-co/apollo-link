@@ -1,7 +1,7 @@
 {
-  "name": "apollo-spotify-auth",
-  "version": "1.0.0",
-  "description": "An Express app for handling Apollo assistant's Spotify integration on the back end.",
+  "name": "apollo-link",
+  "version": "2.0.0",
+  "description": "An Express app for handling Apollo assistant's social integrations on the backend.",
   "main": "index.js",
   "type": "module",
   "scripts": {
