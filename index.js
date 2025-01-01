@@ -11,6 +11,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 process.env.PORT = port;
 
+process.__dirname = __dirname;
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Use routers from ./routers
 fs.readdir(path.join(__dirname, 'routers'), (err, files) => {

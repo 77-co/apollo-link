@@ -128,3 +128,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Google Cloud Auth Credentials
+google-cloud-credentials.json

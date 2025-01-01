@@ -91,7 +91,7 @@ router.get('/callback', async (req, res) => {
         // Optionally: clear state after sending tokens to avoid re-use
         authStates.delete(state);
 
-        res.sendFile(path.join(__dirname, 'html/login-success.html'));
+        res.sendFile(path.join(process.__dirname, 'html/spotify-login-success.html'));
     } catch (error) {
         console.error(error);
         res.status(500).send('Authorization failed.');
