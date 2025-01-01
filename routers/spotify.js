@@ -1,6 +1,7 @@
 import axios from 'axios';
-import EventEmitter from 'events';
+import EventEmitter from 'node:events';
 import express from 'express';
+import path from 'node:path';
 
 const router = express.Router();
 

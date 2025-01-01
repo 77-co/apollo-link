@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
 import path from 'path';
-import EventEmitter from 'events';
-import { promises as fs } from 'fs';
+import EventEmitter from 'node:events';
+import { promises as fs } from 'node:fs';
 import { generateState } from '../utils/helpers.js';
 
 const router = Router();
