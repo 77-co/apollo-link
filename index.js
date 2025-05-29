@@ -11,6 +11,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 process.env.PORT = port;
 
+app.set("trust proxy", process.env.NODE_ENV === "production")
+
 process.__dirname = __dirname;
 
 app.use(express.static(path.join(__dirname, 'public')));

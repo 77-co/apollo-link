@@ -8,7 +8,6 @@ const router = express.Router();
 import { generateState } from '../utils/helpers.js';
 
 // Spotify credentials
-const authSecret = process.env.SPOTIFY_AUTH_SECRET;
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const redirectUri = process.env.SPOTIFY_REDIRECT_URI || `http://localhost:${process.env.PORT}/spotify/callback`;
