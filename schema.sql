@@ -1,0 +1,7 @@
+CREATE TABLE devices (
+    device_id VARCHAR(255) PRIMARY KEY,
+    public_key TEXT NOT NULL,
+    registered_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_seen_at TIMESTAMP WITH TIME ZONE,
+    key_version INTEGER DEFAULT 1 NOT NULL
+); 

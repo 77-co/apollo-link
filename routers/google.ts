@@ -1,34 +1,48 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { OAuth2Client } from 'google-auth-library';
-import { google } from 'googleapis';
 import path from 'path';
 import EventEmitter from 'node:events';
 import { promises as fs } from 'node:fs';
 import { generateState } from '../utils/helpers.js';
 
-const router = Router();
+const router: Router = Router();
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
-const CREDENTIALS_PATH = path.join(process.__dirname, 'google-cloud-credentials.json');
+const CREDENTIALS_PATH = path.join(process.cwd(), 'google-cloud-credentials.json');
 const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
 const STARTING_PATH = '/google';
 
-const authStates = new Map();
+const authStates = new Map<string, string>();
 const eventEmitter = new EventEmitter();
 
-let oAuth2Client;
+let oAuth2Client: OAuth2Client;
 
-// Initialize OAuth client
-async function initializeOAuthClient() {
-    const credentials = JSON.parse(await fs.readFile(CREDENTIALS_PATH));
-    const { client_id, client_secret } = credentials.web;
-    oAuth2Client = new OAuth2Client(client_id, client_secret, REDIRECT_URI);
+interface GoogleCredentials {
+    web: {
+        client_id: string;
+        client_secret: string;
+        redirect_uris: string[];
+    }
 }
 
-// Initialize on startup
+async function initializeOAuthClient() {
+    try {
+        const credentialsContent = await fs.readFile(CREDENTIALS_PATH, 'utf-8');
+        const credentials: GoogleCredentials = JSON.parse(credentialsContent);
+        const { client_id, client_secret } = credentials.web;
+        if (!REDIRECT_URI) {
+            throw new Error("GOOGLE_REDIRECT_URI is not set in the environment variables.");
+        }
+        oAuth2Client = new OAuth2Client(client_id, client_secret, REDIRECT_URI);
+    } catch (error) {
+        console.error("Failed to initialize Google OAuth client:", error);
+        process.exit(1);
+    }
+}
+
 initializeOAuthClient();
 
-router.get('/auth/:state', async (req, res) => {
+router.get('/auth/:state', async (req: Request<{ state: string }>, res: Response) => {
     const state = req.params.state;
     
     if (!authStates.has(state)) return res.status(400).send('Invalid auth request.');
@@ -45,7 +59,7 @@ router.get('/auth/:state', async (req, res) => {
     res.redirect(authUrl);
 });
 
-router.get('/sse/:state', (req, res) => {
+router.get('/sse/:state', (req: Request<{ state: string }>, res: Response) => {
     const state = req.params.state;
     
     if (!authStates.has(state)) return res.status(400).send('Invalid auth request.');
@@ -60,7 +74,7 @@ router.get('/sse/:state', (req, res) => {
         res.write(`data: ${JSON.stringify({ status: 'keep-alive' })}\n\n`);
     }, 10000);
 
-    const handleEvent = (data, closeConnection = false) => {
+    const handleEvent = (data: any, closeConnection = false) => {
         res.write(`data: ${JSON.stringify(data)}\n\n`);
         if (closeConnection) res.end();
     };
@@ -73,7 +87,7 @@ router.get('/sse/:state', (req, res) => {
     });
 });
 
-router.get('/callback', async (req, res) => {
+router.get('/callback', async (req: Request<{}, {}, {}, { code: string; state: string }>, res: Response) => {
     const { code, state } = req.query;
 
     if (!authStates.has(state)) return res.status(400).send('Invalid state');
@@ -86,11 +100,11 @@ router.get('/callback', async (req, res) => {
             status: "User logged in", 
             access_token, 
             refresh_token, 
-            expires_in: Math.floor((expiry_date - Date.now()) / 1000)
+            expires_in: expiry_date ? Math.floor((expiry_date - Date.now()) / 1000) : undefined
         }, true);
 
         authStates.delete(state);
-        res.sendFile(path.join(process.__dirname, 'html/google-login-success.html'));
+        res.sendFile(path.join(process.cwd(), 'html/google-login-success.html'));
     } catch (error) {
         console.error(error);
         res.status(500).send('Authorization failed.');
@@ -98,7 +112,7 @@ router.get('/callback', async (req, res) => {
     }
 });
 
-router.get('/start-auth', (req, res) => {
+router.get('/start-auth', (req: Request, res: Response) => {
     const state = generateState();
     authStates.set(state, 'Waiting for URL visit');
     res.json({ 

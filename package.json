@@ -2,9 +2,12 @@
   "name": "apollo-link",
   "version": "2.0.0",
   "description": "An Express app for handling Apollo assistant's social integrations on the backend.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc-watch --onSuccess \"node dist/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +25,17 @@
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
     "google-auth-library": "^10.1.0",
-    "googleapis": "^150.0.1"
+    "googleapis": "^150.0.1",
+    "ioredis": "^5.6.1",
+    "pg": "^8.16.3",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.13",
+    "@types/pg": "^8.15.4",
+    "@types/ws": "^8.18.1",
+    "tsc-watch": "^7.1.1",
+    "typescript": "^5.8.3"
   }
 }
