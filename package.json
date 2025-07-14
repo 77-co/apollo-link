@@ -22,16 +22,20 @@
   "homepage": "https://github.com/MaciejkaG/apollo-spotify-auth#readme",
   "dependencies": {
     "axios": "^1.10.0",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
     "google-auth-library": "^10.1.0",
     "googleapis": "^150.0.1",
     "ioredis": "^5.6.1",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.16.3",
     "ws": "^8.18.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.13",
     "@types/pg": "^8.15.4",
     "@types/ws": "^8.18.1",

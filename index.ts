@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import fs from 'node:fs';
 import http from 'node:http';
-import { initializeWebSocket } from './services/webSocketService.js';
+import { initializeWebSocket } from './services/websocket.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,7 +27,7 @@ fs.readdir(routersPath, (err, files) => {
         return;
     }
 
-    files.forEach(async file => {
+    files.forEach(async (file) => {
         if (file.endsWith('.js')) { // After compilation, files will be .js
             try {
                 const routerModule = await import(path.join(routersPath, file));

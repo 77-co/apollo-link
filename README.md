@@ -1,5 +1,5 @@
-# apollo-spotify-auth
-An Express app for handling Apollo assistant's Spotify integration on the back end.
+# apollo-link
+An Express backend for the Apollo standalone voice assistant device and it's companion mobile app.
 
 # Documentation
 ## Endpoints
