@@ -30,7 +30,10 @@ fs.readdir(routersPath, (err, files) => {
     files.forEach(async (file) => {
         if (file.endsWith('.js')) { // After compilation, files will be .js
             try {
-                const routerModule = await import(path.join(routersPath, file));
+                // Convert Windows path to proper file URL for ESM import
+                const routerPath = path.join(routersPath, file);
+                const routerUrl = `file://${routerPath.replace(/\\/g, '/')}`;
+                const routerModule = await import(routerUrl);
                 const { startingPath, router } = routerModule.default;
                 if (startingPath && router) {
                     app.use(startingPath, router);
