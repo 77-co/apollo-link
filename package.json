@@ -36,7 +36,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.0.13",
+    "@types/node": "^24.9.0",
     "@types/pg": "^8.15.4",
     "@types/ws": "^8.18.1",
     "tsc-watch": "^7.1.1",
