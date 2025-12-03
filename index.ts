@@ -19,6 +19,11 @@ app.set("trust proxy", process.env.NODE_ENV === "production");
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+// Health check endpoint
+app.get('/', (req, res) => {
+    res.status(200).send('OK');
+});
+
 // Use routers from ./routers
 const routersPath = path.join(__dirname, 'routers');
 fs.readdir(routersPath, (err, files) => {
